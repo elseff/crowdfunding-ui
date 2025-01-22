@@ -1,0 +1,33 @@
+<div *ngIf="isRegister" class="register-block">
+    <h1>Регистрация</h1>
+    <form (ngSubmit)="onRegister()">
+        <label for="firstName">Имя</label>
+        <input type="text" id="firstName" name="firstName" required [(ngModel)]="userForRegister.firstName">
+
+        <label for="lastName">Фамилия</label>
+        <input type="text" id="lastName" name="lastName" required [(ngModel)]="userForRegister.lastName">
+
+        <label for="email">Электронная почта</label>
+        <input type="email" id="email" name="email" required [(ngModel)]="userForRegister.email">
+
+        <label for="password">Пароль</label>
+        <input type="password" id="password" name="password" required [(ngModel)]="userForRegister.password">
+
+        <button type="submit">Зарегистрироваться</button>
+        <label>Уже есть аккаунт? </label><label class="link" (click)="isRegister=false">Войти</label> 
+    </form>
+</div>
+
+<div *ngIf="!isRegister" class="login-block">
+    <h1>Авторизация</h1>
+    <form (ngSubmit)="onLogin()">
+        <label for="login-email">Электронная почта</label>
+        <input type="email" id="login-email" name="login-email" required [(ngModel)]="userForLogin.email">
+
+        <label for="login-password">Пароль</label>
+        <input type="password" id="login-password" name="login-password" required [(ngModel)]="userForLogin.password">
+
+        <button type="submit">Войти</button>
+        <label>Ещё не зарегистрированы? </label><label class="link" (click)="isRegister=true">Зарегистрироваться</label> 
+    </form>
+</div>
