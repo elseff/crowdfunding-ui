@@ -5,6 +5,13 @@
   <app-auth></app-auth>
 </div>
 <div *ngIf="user">
+  <app-profile [profileUser]="user"></app-profile>
+  <div class="logout" (click)="logout()">
+    <h1>Выйти</h1>
+  </div>
+</div>
+<div *ngIf="user">
+  <h1 style="text-align: center;">Проекты</h1>
   <div class="project-list">
     <div *ngFor="let p of projects" class="project-card">
       <h2> {{ p.name }} </h2>
@@ -13,12 +20,12 @@
         <h3> {{ p.author.id }} {{ p.author.firstName }} {{ p.author.lastName }}</h3>
       </div>
       
-      <div class="proj-images">
+      <div class="proj-images" *ngIf="p.images.length>0">
         <div *ngFor="let image of p.images">
           <img [src]="'http://localhost:8080/api/v1/projects/'+p.id+'/images/'+image.id">
         </div>
       </div>
-      <div class="proj-comments">
+      <div class="proj-comments" *ngIf="p.comments.length>0">
         <div *ngFor="let com of p.comments">
           <div class="proc-comment-card">
             <h3>{{ com.id }} {{ com.text }} </h3>

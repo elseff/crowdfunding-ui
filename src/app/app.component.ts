@@ -6,18 +6,26 @@ import { Project } from './_model/Project';
 import { ProjectService } from './_service/project.service';
 import { User } from './_model/User';
 import { AuthComponent } from "./auth/auth.component";
+import { ProfileComponent } from "./profile/profile.component";
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterModule, NgFor, NgIf, FormsModule, AuthComponent, CommonModule],
+  imports: [RouterModule, NgFor, NgIf, FormsModule, AuthComponent, CommonModule, ProfileComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit, OnDestroy{
 
-  user?: User = undefined;
+  //  user?: User = undefined;
+   user?: User = {
+    id:102,
+    firstName:"test",
+    lastName:"test",
+    email:"test",
+    balance:100
+   };
   mode: boolean = true;
 
   constructor(private projectService: ProjectService){
@@ -40,4 +48,7 @@ export class AppComponent implements OnInit, OnDestroy{
   projects: Project[] = []
 
 
+  logout(){
+    this.user = undefined
+  }
 }

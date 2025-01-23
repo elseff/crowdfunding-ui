@@ -79,19 +79,10 @@ button:hover {
 
 .proj-images {
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
     max-width: 600px; /* Максимальная ширина слайдера */
     margin: auto;
-    overflow: hidden;
-}
-
-.slides {
-    display: flex;
-    transition: transform 0.5s ease;
-}
-
-.slide {
-    min-width: 100%; /* Каждое изображение занимает 100% ширины контейнера */
+    overflow: scroll;
 }
 
 .proj-comments {
@@ -123,4 +114,18 @@ h4 {
     font-size: 1em;
     color: #666;
     margin-top: 5px;
+}
+
+img {
+    width: 300px;
+    height: 300px;
+    margin: 5px;
+}
+
+.logout {
+    padding: 5px;
+    background-color: #eb9696;
+    width: 90px;
+    text-align: center;
+    border-radius: 10px;
 }
