@@ -5,7 +5,7 @@ import { AuthService } from '../_service/auth.service';
 import { RegisterUserRequest } from '../_model/RegisterUserRequest';
 import { LoginUserRequest } from '../_model/LoginUserRequest';
 import { AppComponent } from '../app.component';
-import e from 'express';
+import { BrowserModule } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-auth',
@@ -27,6 +27,7 @@ export class AuthComponent {
     password:""
   }
 
+  errorMessage: string|null = null;
 constructor(private authService: AuthService, private app: AppComponent){
 
 }
@@ -47,6 +48,12 @@ constructor(private authService: AuthService, private app: AppComponent){
           email: response.email,
           balance: response.balance
         }
+      },error=>{
+        console.log(error.error.message)
+        if(error.error.message.includes('already')){
+          this.errorMessage = 'Пользователь с таким email уже зарегистрирован'
+        }
+      
       })
   }
 
@@ -57,8 +64,28 @@ constructor(private authService: AuthService, private app: AppComponent){
         email:"",
         password:""
       }
+      
+
       this.app.user =  response;
+  },error=>{
+    console.log(error.error.message)
+    if(error.error.message==="incorrect password"){
+      this.errorMessage = 'Неверный пароль'
+    }
+    else if (<string>(error.error.message).includes('exists')){
+      this.errorMessage = 'Пользователь не найден'
+    }
+  
   })
   }
 
+  clickRegister(){
+    this.isRegister=true
+    this.errorMessage = null
+  }
+
+  clickLogin(){
+    this.isRegister=false
+    this.errorMessage=null
+  }
 }

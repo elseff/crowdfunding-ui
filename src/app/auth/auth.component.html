@@ -1,5 +1,8 @@
 <div *ngIf="isRegister" class="register-block">
     <h1>Регистрация</h1>
+    <div *ngIf="errorMessage" class="error">
+        <h3>{{ errorMessage }}</h3>
+    </div>
     <form (ngSubmit)="onRegister()">
         <label for="firstName">Имя</label>
         <input type="text" id="firstName" name="firstName" required [(ngModel)]="userForRegister.firstName">
@@ -14,12 +17,15 @@
         <input type="password" id="password" name="password" required [(ngModel)]="userForRegister.password">
 
         <button type="submit">Зарегистрироваться</button>
-        <label>Уже есть аккаунт? </label><label class="link" (click)="isRegister=false">Войти</label> 
+        <label>Уже есть аккаунт? </label><label class="link" (click)="clickLogin()">Войти</label> 
     </form>
 </div>
 
 <div *ngIf="!isRegister" class="login-block">
     <h1>Авторизация</h1>
+    <div *ngIf="errorMessage" class="error">
+        <h3>{{ errorMessage }}</h3>
+    </div>
     <form (ngSubmit)="onLogin()">
         <label for="login-email">Электронная почта</label>
         <input type="email" id="login-email" name="login-email" required [(ngModel)]="userForLogin.email">
@@ -28,6 +34,6 @@
         <input type="password" id="login-password" name="login-password" required [(ngModel)]="userForLogin.password">
 
         <button type="submit">Войти</button>
-        <label>Ещё не зарегистрированы? </label><label class="link" (click)="isRegister=true">Зарегистрироваться</label> 
+        <label>Ещё не зарегистрированы? </label><label class="link" (click)="clickRegister()">Зарегистрироваться</label> 
     </form>
 </div>
