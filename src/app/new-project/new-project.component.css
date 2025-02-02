@@ -1,0 +1,28 @@
+.block{
+    margin-top: 15px;
+}
+
+.new-proj-btn {
+    padding: 1em;
+    background-color: rgb(252, 255, 47);
+    border-radius: 5px;
+    border-style: dashed;
+    font-size: x-large;
+}
+
+.create-proj-btn {
+    padding: 1em;
+    background-color: greenyellow;
+    border-radius: 5px;
+    font-size: x-large;
+}
+
+.text-input {
+    font-size: x-large;
+    padding: 5px;
+    margin: 5px;
+}
+
+label{
+    font-size: large;
+}

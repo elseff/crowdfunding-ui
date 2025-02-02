@@ -11,6 +11,9 @@
   </div>
 </div>
 <div *ngIf="user">
+  <div>
+    <app-new-project [authorId]="user.id"></app-new-project>
+  </div>
   <h1 style="text-align: center;">Проекты</h1>
   <div class="project-list">
     <div *ngFor="let p of projects" class="project-card">
@@ -30,12 +33,20 @@
           <div class="proc-comment-card">
             <h3>{{ com.id }} {{ com.text }} </h3>
             <h4> {{ com.user.id }} {{ com.user.firstName }} {{ com.user.lastName }}</h4>
+            <h5> {{ com.createdAt|date:'yyyy-MM-dd hh:mm' }}</h5>
           </div>
         </div>
       </div>
       <div class="project-card-buttons">
         <button class="proj-comment-btn">Оставить комментарий</button>
-        <button class="proc-support-btn">Поддержать проект</button>
+        <div class="delete-proj-block" *ngIf="p.author.id==user.id">
+          <button class="delete-proj-btn" (click)="deleteProj(p.id)">
+            Удалить
+          </button>
+        </div>
+        <div class="support-proj-block" *ngIf="p.author.id!=user.id">
+          <button class="proc-support-btn">Поддержать проект</button>
+        </div>
       </div>
     </div>
   </div>

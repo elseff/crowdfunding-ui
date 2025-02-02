@@ -14,8 +14,8 @@
 /* Стили списка проектов */
 .project-list {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-wrap: wrap-reverse;
+    justify-content: space-between;
     padding: 20px;
 }
 
@@ -26,13 +26,14 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     margin: 15px;
     padding: 20px;
-    width: 700px; /* Ширина карточки */
+    height: min-content;
+    width: 1000px; /* Ширина карточки */
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .project-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .project-card h2 {
@@ -128,4 +129,12 @@ img {
     width: 90px;
     text-align: center;
     border-radius: 10px;
+}
+
+.delete-proj-btn{
+    background-color: tomato;
+}
+
+.delete-proj-btn:hover{
+    background-color: crimson;
 }
