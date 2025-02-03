@@ -17,41 +17,44 @@ import { NewProjectComponent } from "./new-project/new-project.component";
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit, OnDestroy{
+export class AppComponent implements OnInit, OnDestroy {
 
   //  user?: User = undefined;
-   user?: User = {
-    id:102,
-    firstName:"test",
-    lastName:"test",
-    email:"test",
-    balance:100
-   };
+  user?: User = {
+    id: 102,
+    firstName: "test",
+    lastName: "test",
+    email: "test",
+    balance: 100
+  };
   mode: boolean = true;
+  selectedProj?: number = undefined;
+  showCommentBlock = false;
+  newCommentText: string = ""
 
-  constructor(private projectService: ProjectService){
+  constructor(private projectService: ProjectService) {
 
   }
   ngOnDestroy(): void {
-    
+
   }
 
   ngOnInit(): void {
     this.projects = []
-    this.projectService.findAllProjects().subscribe(projects=>{
-      projects.forEach(p=>{
+    this.projectService.findAllProjects().subscribe(projects => {
+      projects.forEach(p => {
         this.projects.push(p);
       })
     })
-    
+
   }
 
-  deleteProj(projId: number){
-    this.projectService.deleteProject(projId, this.user?.id).subscribe(res=>{
+  deleteProj(projId: number) {
+    this.projectService.deleteProject(projId, this.user?.id).subscribe(res => {
       console.log(res)
       this.projects = []
-      this.projectService.findAllProjects().subscribe(projects=>{
-        projects.forEach(p=>{
+      this.projectService.findAllProjects().subscribe(projects => {
+        projects.forEach(p => {
           this.projects.push(p);
         })
       })
@@ -62,7 +65,34 @@ export class AppComponent implements OnInit, OnDestroy{
   projects: Project[] = []
 
 
-  logout(){
+  logout() {
     this.user = undefined
+  }
+
+  clickComment(projId: number) {
+    if (!this.showCommentBlock) {
+      this.showCommentBlock = true;
+      this.selectedProj = projId;
+    } else {
+      this.showCommentBlock = false;
+      this.selectedProj = undefined;
+    }
+  }
+
+  createComment(text: string, projId: number, userId: number) {
+    this.projectService.createComment(text, projId, userId)
+      .subscribe(res => {
+        console.log(res);
+        this.showCommentBlock = false;
+        this.selectedProj = undefined;
+        this.newCommentText = ""
+
+        this.projects = []
+        this.projectService.findAllProjects().subscribe(projects => {
+          projects.forEach(p => {
+            this.projects.push(p);
+          })
+        })
+      });
   }
 }
