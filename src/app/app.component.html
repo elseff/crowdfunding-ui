@@ -48,13 +48,20 @@
           </button>
         </div>
         <div class="support-proj-block" *ngIf="p.author.id!=user.id">
-          <button class="proc-support-btn">Поддержать проект</button>
+          <button class="proc-support-btn" (click)="clickSupport(p.id)">Поддержать проект</button>
         </div>
       </div>
-      <div class="comment-block" *ngIf="p.id==selectedProj">
+      <div class="comment-block" *ngIf="p.id==selectedProj && showCommentBlock">
         <label>Комментарий</label><input type="text" class="text-input" [(ngModel)]="newCommentText">
         <button class="create-com-btn" (click)="createComment(newCommentText,p.id, user.id)"
           [disabled]="newCommentText==''">Отправить</button>
+      </div>
+      <div class="support-proj-block" *ngIf="p.id==selectedProj && showSupportBlock">
+        <label>Сумма</label><input type="number" class="text-input" [(ngModel)]="supportAmount">
+        <button (click)="supportProject(p.id)" [disabled]="supportAmount>user.balance">Поддержать</button>
+      </div>
+      <div *ngIf="user.balance < supportAmount">
+        <h1 style="color:tomato;">Недостаточно средств</h1>
       </div>
     </div>
   </div>

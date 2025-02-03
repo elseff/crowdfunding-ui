@@ -8,6 +8,7 @@ import { User } from './_model/User';
 import { AuthComponent } from "./auth/auth.component";
 import { ProfileComponent } from "./profile/profile.component";
 import { NewProjectComponent } from "./new-project/new-project.component";
+import { UserService } from './_service/user.service';
 
 
 @Component({
@@ -30,9 +31,11 @@ export class AppComponent implements OnInit, OnDestroy {
   mode: boolean = true;
   selectedProj?: number = undefined;
   showCommentBlock = false;
+  showSupportBlock = false;
   newCommentText: string = ""
+  supportAmount = 0;
 
-  constructor(private projectService: ProjectService) {
+  constructor(private projectService: ProjectService, private userService: UserService) {
 
   }
   ngOnDestroy(): void {
@@ -45,6 +48,9 @@ export class AppComponent implements OnInit, OnDestroy {
       projects.forEach(p => {
         this.projects.push(p);
       })
+    })
+    this.userService.findById(102).subscribe(res => {
+      this.user = res
     })
 
   }
@@ -70,6 +76,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   clickComment(projId: number) {
+    this.showSupportBlock = false;
     if (!this.showCommentBlock) {
       this.showCommentBlock = true;
       this.selectedProj = projId;
@@ -94,5 +101,39 @@ export class AppComponent implements OnInit, OnDestroy {
           })
         })
       });
+  }
+
+  clickSupport(projId: number) {
+    this.showCommentBlock = false;
+    if (this.showSupportBlock) {
+      this.showSupportBlock = false;
+      this.selectedProj = undefined;
+    } else {
+      this.showSupportBlock = true;
+      this.selectedProj = projId;
+    }
+  }
+
+  supportProject(projId: number) {
+    const usrId = this.user ? this.user?.id : 0
+    this.projectService.supportProject(projId, this.supportAmount, usrId).subscribe(res => {
+      console.log(res)
+      this.supportAmount = 0;
+      this.showSupportBlock = false;
+      this.showCommentBlock = false;
+      this.selectedProj = undefined;
+
+      this.projects = []
+      this.projectService.findAllProjects().subscribe(projects => {
+        projects.forEach(p => {
+          this.projects.push(p);
+        })
+      })
+
+      this.userService.findById(usrId).subscribe(response => {
+        this.user = response;
+      })
+    }
+    );
   }
 }

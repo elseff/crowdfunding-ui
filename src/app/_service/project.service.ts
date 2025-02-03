@@ -6,6 +6,7 @@ import { AddProjectRequest } from '../_model/AddProjectRequest';
 import { AddProjectResponse } from '../_model/AddProjectResponse';
 import { CreateCommentRequest } from '../_model/CreateCommentRequest';
 import { CreateCommentResponse } from '../_model/CreateCommentResponse';
+import { SupportProjectResponse } from '../_model/SupportProjectResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -44,5 +45,12 @@ export class ProjectService {
     const apiUrl = this.api + '/' + projId + '/comments'
 
     return this.httpClient.post<CreateCommentResponse>(apiUrl, request, this.options);
+  }
+
+  supportProject(projId: number, amount: number, userId: number): Observable<SupportProjectResponse> {
+    const apiUrl = this.api + '/' + projId + '/support';
+    const params: HttpParams = new HttpParams().set('userId', userId).set('amount', amount);
+
+    return this.httpClient.post<SupportProjectResponse>(apiUrl, params);
   }
 }
