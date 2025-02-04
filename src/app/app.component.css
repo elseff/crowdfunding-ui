@@ -167,3 +167,26 @@ label {
 .add-image-btn:hover {
     background-color: rgb(153, 108, 24);
 }
+
+.image-btn {
+    padding: 1px;
+    background-color: magenta;
+    -webkit-filter: blur(0px);
+}
+
+
+.image-btnn {
+    padding: 1px;
+    background-color: magenta;
+}
+
+.image-btnn:hover {
+    padding: 1px;
+    background-color: magenta;
+}
+
+
+.image-btn:hover {
+    background-color: tomato;
+    -webkit-filter: grayscale(100%);
+}

@@ -7,6 +7,7 @@ import { AddProjectResponse } from '../_model/AddProjectResponse';
 import { CreateCommentRequest } from '../_model/CreateCommentRequest';
 import { CreateCommentResponse } from '../_model/CreateCommentResponse';
 import { SupportProjectResponse } from '../_model/SupportProjectResponse';
+import { ImageOperationResponse } from '../_model/ImageOperationResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -74,4 +75,10 @@ export class ProjectService {
     return this.httpClient.post<SupportProjectResponse>(apiUrl, formData);
   }
 
+  deleteImage(projectId: number, imageId: number, userId: number): Observable<ImageOperationResponse> {
+    const apiUrl = this.api + '/' + projectId + '/images/' + imageId
+    const params: HttpParams = new HttpParams().set('userId', userId);
+
+    return this.httpClient.delete<ImageOperationResponse>(apiUrl, { params: params, headers: this.options.headers });
+  }
 }

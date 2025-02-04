@@ -180,4 +180,23 @@ export class AppComponent implements OnInit, OnDestroy {
       })
     })
   }
+
+  deleteImage(projId: number, imageId: number) {
+    const usrId = this.user ? this.user.id : 0;
+    this.projectService.deleteImage(projId, imageId, usrId).subscribe(res => {
+      console.log(res);
+
+      this.showSupportBlock = false;
+      this.showCommentBlock = false;
+      this.showAddImageBlock = false;
+      this.selectedProj = undefined;
+
+      this.projects = []
+      this.projectService.findAllProjects().subscribe(projects => {
+        projects.forEach(p => {
+          this.projects.push(p);
+        })
+      })
+    })
+  }
 }
