@@ -42,6 +42,11 @@
         <button class="proj-comment-btn" (click)="clickComment(p.id)">
           Оставить комментарий
         </button>
+        <div class="add-image-block" *ngIf="p.author.id==user.id">
+          <button class="add-image-btn" (click)="clickAddImage(p.id)">
+            Добавить изображение
+          </button>
+        </div>
         <div class="delete-proj-block" *ngIf="p.author.id==user.id">
           <button class="delete-proj-btn" (click)="deleteProj(p.id)">
             Удалить
@@ -51,17 +56,26 @@
           <button class="proc-support-btn" (click)="clickSupport(p.id)">Поддержать проект</button>
         </div>
       </div>
+
       <div class="comment-block" *ngIf="p.id==selectedProj && showCommentBlock">
         <label>Комментарий</label><input type="text" class="text-input" [(ngModel)]="newCommentText">
         <button class="create-com-btn" (click)="createComment(newCommentText,p.id, user.id)"
           [disabled]="newCommentText==''">Отправить</button>
       </div>
+
       <div class="support-proj-block" *ngIf="p.id==selectedProj && showSupportBlock">
         <label>Сумма</label><input type="number" class="text-input" [(ngModel)]="supportAmount">
         <button (click)="supportProject(p.id)" [disabled]="supportAmount>user.balance">Поддержать</button>
       </div>
+
       <div *ngIf="user.balance < supportAmount">
         <h1 style="color:tomato;">Недостаточно средств</h1>
+      </div>
+
+      <div class="add-image-block" *ngIf="p.id == selectedProj && showAddImageBlock">
+        <label>Выберите изображение</label>
+        <input #imageInput type="file" accept="image/png" class="text-input" (change)="onFileSelected($event)">
+        <button (click)="addImage(p.id, imageInput)">Добавить</button>
       </div>
     </div>
   </div>

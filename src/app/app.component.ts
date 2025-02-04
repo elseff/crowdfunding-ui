@@ -32,8 +32,10 @@ export class AppComponent implements OnInit, OnDestroy {
   selectedProj?: number = undefined;
   showCommentBlock = false;
   showSupportBlock = false;
+  showAddImageBlock = false;
   newCommentText: string = ""
   supportAmount = 0;
+  imageToAdd?: File = undefined;
 
   constructor(private projectService: ProjectService, private userService: UserService) {
 
@@ -135,5 +137,47 @@ export class AppComponent implements OnInit, OnDestroy {
       })
     }
     );
+  }
+
+  clickAddImage(projId: number) {
+    this.showSupportBlock = false;
+    this.showCommentBlock = false;
+    if (this.showAddImageBlock) {
+      this.showAddImageBlock = false;
+      this.selectedProj = undefined;
+    } else {
+      this.showAddImageBlock = true;
+      this.selectedProj = projId;
+    }
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.imageToAdd = input.files[0]; // Получаем первый файл
+      console.log('Selected file:', this.imageToAdd);
+    } else {
+      this.imageToAdd = undefined; // Если файл не выбран
+    }
+  }
+
+  addImage(projId: number, imageInput: any) {
+    const usrId = this.user ? this.user.id : 0;
+    const image = this.imageToAdd ? this.imageToAdd : imageInput.files[0];
+    this.projectService.addImage(projId, usrId, image).subscribe(res => {
+      console.log(res)
+
+      this.showSupportBlock = false;
+      this.showCommentBlock = false;
+      this.showAddImageBlock = false;
+      this.selectedProj = undefined;
+
+      this.projects = []
+      this.projectService.findAllProjects().subscribe(projects => {
+        projects.forEach(p => {
+          this.projects.push(p);
+        })
+      })
+    })
   }
 }

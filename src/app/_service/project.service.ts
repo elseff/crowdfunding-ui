@@ -53,4 +53,25 @@ export class ProjectService {
 
     return this.httpClient.post<SupportProjectResponse>(apiUrl, params);
   }
+
+  addImage(projId: number, userId: number, image: File) {
+    if (!image) {
+      throw new Error('No file selected');
+    }
+
+    console.log('Image type:', image instanceof Blob); // Должно быть true
+    console.log('Image:', image);
+
+    const apiUrl = this.api + '/' + projId + '/images/upload/' + userId;
+    const formData = new FormData();
+    formData.append('file', image, image.name);
+
+    // Логирование FormData
+    for (const pair of (formData as any).entries()) {
+      console.log(pair[0], pair[1]);
+    }
+
+    return this.httpClient.post<SupportProjectResponse>(apiUrl, formData);
+  }
+
 }

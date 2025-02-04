@@ -159,3 +159,11 @@ img {
 label {
     font-size: large;
 }
+
+.add-image-btn {
+    background-color: orange;
+}
+
+.add-image-btn:hover {
+    background-color: rgb(153, 108, 24);
+}
