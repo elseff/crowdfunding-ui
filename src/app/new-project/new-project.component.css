@@ -1,20 +1,40 @@
-.block{
+.block {
     margin-top: 15px;
+}
+
+* {
+    margin-left: 20px;
 }
 
 .new-proj-btn {
     padding: 1em;
     background-color: rgb(252, 255, 47);
     border-radius: 5px;
-    border-style: dashed;
+    border-style: none;
     font-size: x-large;
+    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+}
+
+.new-proj-btn:hover {
+    background-color: rgb(208, 211, 61);
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .create-proj-btn {
+
     padding: 1em;
     background-color: greenyellow;
     border-radius: 5px;
+    border-style: none;
     font-size: x-large;
+    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+}
+
+.create-proj-btn:hover {
+    background-color: rgb(140, 192, 63);
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .text-input {
@@ -23,6 +43,7 @@
     margin: 5px;
 }
 
-label{
+label {
     font-size: large;
+
 }

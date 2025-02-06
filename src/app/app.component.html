@@ -6,9 +6,9 @@
 </div>
 <div *ngIf="user">
   <app-profile [profileUser]="user"></app-profile>
-  <div class="logout" (click)="logout()">
-    <h1>Выйти</h1>
-  </div>
+  <button class="logout" (click)="logout()">
+    Выйти
+  </button>
 </div>
 <div *ngIf="user">
   <div>
@@ -20,7 +20,7 @@
       <h2> {{ p.name }} </h2>
       <p> {{ p.description }} </p>
       <div class="proj-author">
-        <h3> {{ p.author.id }} {{ p.author.firstName }} {{ p.author.lastName }}</h3>
+        <h3> {{ p.author.firstName }} {{ p.author.lastName }}</h3>
       </div>
 
       <div class="proj-images" *ngIf="p.images.length>0">
@@ -35,8 +35,8 @@
         <h2>Комментарии</h2>
         <div *ngFor="let com of p.comments">
           <div class="proc-comment-card">
-            <h3>{{ com.id }} {{ com.text }} </h3>
-            <h4> {{ com.user.id }} {{ com.user.firstName }} {{ com.user.lastName }}</h4>
+            <h3> {{ com.text }} </h3>
+            <h4> {{ com.user.firstName }} {{ com.user.lastName }}</h4>
             <h5> {{ com.createdAt|date:'yyyy-MM-dd hh:mm' }}</h5>
           </div>
         </div>
@@ -46,7 +46,7 @@
           Оставить комментарий
         </button>
         <div class="add-image-block" *ngIf="p.author.id==user.id">
-          <button class="add-image-btn" (click)="clickAddImage(p.id)">
+          <button class="add-image-btn" (click)="clickAddImage(p.id)" [disabled]="p.images.length==3">
             Добавить изображение
           </button>
         </div>
@@ -71,7 +71,7 @@
         <button (click)="supportProject(p.id)" [disabled]="supportAmount>user.balance">Поддержать</button>
       </div>
 
-      <div *ngIf="user.balance < supportAmount">
+      <div *ngIf="user.balance < supportAmount && p.id==selectedProj">
         <h1 style="color:tomato;">Недостаточно средств</h1>
       </div>
 

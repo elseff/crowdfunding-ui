@@ -1,5 +1,7 @@
-.profile-block{
-    background-color: bisque;
+.profile-block {
+    background-color: rgb(255, 224, 186);
     width: 500px;
     border-radius: 5px;
+    margin: 20px;
+    padding: 20px;
 }

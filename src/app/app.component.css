@@ -1,12 +1,15 @@
 /* Стили заголовка */
 .title {
     text-align: center;
-    margin: 20px 0;
+    padding: 15px;
+    margin: 0;
+    background-color: #bfd8d5;
 }
 
 .title h1 {
     font-size: 2.5em;
     color: #333;
+    margin: 0;
 }
 
 /* Стили списка проектов */
@@ -19,7 +22,7 @@
 
 /* Стили карточки проекта */
 .project-card {
-    background-color: #f1c1c1;
+    background-color: #d3f1c1;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     margin: 15px;
@@ -76,11 +79,14 @@ button {
     font-size: 1em;
     margin: 10px;
     /* Отступ между кнопками */
+    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
 }
 
 button:hover {
     background-color: #218838;
     /* Цвет кнопки при наведении */
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 button:disabled {
@@ -89,11 +95,10 @@ button:disabled {
 
 .proj-images {
     display: flex;
-    justify-content: flex-start;
-    max-width: 600px;
+    justify-content: center;
     /* Максимальная ширина слайдера */
     margin: auto;
-    overflow: scroll;
+
 }
 
 .proj-comments {
@@ -134,19 +139,34 @@ img {
 }
 
 .logout {
-    padding: 5px;
+    margin: 10px;
+    margin-left: 20px;
+    color: black;
+    padding: 1em;
+    font-size: x-large;
     background-color: #eb9696;
     width: 90px;
     text-align: center;
     border-radius: 10px;
+    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+}
+
+
+.logout:hover {
+    background-color: #b17777;
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .delete-proj-btn {
     background-color: tomato;
+    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
 }
 
 .delete-proj-btn:hover {
     background-color: crimson;
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(255, 0, 0, 0.5);
 }
 
 
@@ -162,31 +182,39 @@ label {
 
 .add-image-btn {
     background-color: orange;
+    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
 }
 
 .add-image-btn:hover {
     background-color: rgb(153, 108, 24);
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .image-btn {
     padding: 1px;
-    background-color: magenta;
+    background-color: rgb(255, 191, 255);
     -webkit-filter: blur(0px);
 }
 
 
 .image-btnn {
     padding: 1px;
-    background-color: magenta;
+    background-color: rgb(255, 200, 255);
+    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
 }
 
 .image-btnn:hover {
     padding: 1px;
-    background-color: magenta;
+    background-color: rgb(255, 196, 255);
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 
 .image-btn:hover {
     background-color: tomato;
-    -webkit-filter: grayscale(100%);
+    /* -webkit-filter: grayscale(100%); */
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(255, 0, 0, 0.5);
 }

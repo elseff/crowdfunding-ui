@@ -21,13 +21,7 @@ import { UserService } from './_service/user.service';
 export class AppComponent implements OnInit, OnDestroy {
 
   //  user?: User = undefined;
-  user?: User = {
-    id: 102,
-    firstName: "test",
-    lastName: "test",
-    email: "test",
-    balance: 100
-  };
+  user?: User = undefined;
   mode: boolean = true;
   selectedProj?: number = undefined;
   showCommentBlock = false;
@@ -50,11 +44,10 @@ export class AppComponent implements OnInit, OnDestroy {
       projects.forEach(p => {
         this.projects.push(p);
       })
+      this.userService.findById(102).subscribe(res => {
+        this.user = res;
+      })
     })
-    this.userService.findById(102).subscribe(res => {
-      this.user = res
-    })
-
   }
 
   deleteProj(projId: number) {
@@ -83,8 +76,14 @@ export class AppComponent implements OnInit, OnDestroy {
       this.showCommentBlock = true;
       this.selectedProj = projId;
     } else {
-      this.showCommentBlock = false;
-      this.selectedProj = undefined;
+      this.newCommentText = "";
+      if (this.selectedProj == projId) {
+        this.showCommentBlock = false;
+        this.selectedProj = undefined;
+      } else {
+        this.showCommentBlock = true;
+        this.selectedProj = projId;
+      }
     }
   }
 
@@ -108,8 +107,14 @@ export class AppComponent implements OnInit, OnDestroy {
   clickSupport(projId: number) {
     this.showCommentBlock = false;
     if (this.showSupportBlock) {
-      this.showSupportBlock = false;
-      this.selectedProj = undefined;
+      this.supportAmount = 0;
+      if (this.selectedProj == projId) {
+        this.showSupportBlock = false;
+        this.selectedProj = undefined;
+      } else {
+        this.showSupportBlock = true;
+        this.selectedProj = projId;
+      }
     } else {
       this.showSupportBlock = true;
       this.selectedProj = projId;
