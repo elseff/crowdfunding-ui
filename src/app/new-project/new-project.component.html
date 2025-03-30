@@ -4,6 +4,12 @@
         <h1>Создание нового проекта</h1>
         <label>Название</label><br>
         <input type="text" class="text-input" [(ngModel)]="name"><br>
+        <label>Сумма</label><br>
+        <input type="number" class="text-input" [(ngModel)]="target"><br>
+        <label>Категория</label><br>
+        <select [(ngModel)]="category" class="text-input">
+            <option *ngFor="let c of categories"> {{ c }}</option>
+        </select><br>
         <label>Описание</label><br>
         <textarea type="text" class="text-input" [(ngModel)]="desc" rows="5"></textarea>
         <h3>*Изображения можно будет добавить позже*</h3>

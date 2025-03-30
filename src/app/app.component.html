@@ -17,12 +17,14 @@
   <h1 style="text-align: center;">Проекты</h1>
   <div class="project-list">
     <div *ngFor="let p of projects" class="project-card">
-      <h2> {{ p.name }} </h2>
-      <p> {{ p.description }} </p>
+      <h1> {{ p.name }} </h1>
+      <div>
+        <h2> {{ p.category.name }}</h2>
+      </div>
+      <p style="font-size: large;"> {{ p.description }} </p>
       <div class="proj-author">
         <h3> {{ p.author.firstName }} {{ p.author.lastName }}</h3>
       </div>
-
       <div class="proj-images" *ngIf="p.images.length>0">
         <div *ngFor="let image of p.images">
           <button [ngClass]="{'image-btn': p.author.id==user.id, 'image-btnn': p.author.id!=user.id}"
@@ -59,6 +61,7 @@
           <button class="proc-support-btn" (click)="clickSupport(p.id)">Поддержать проект</button>
         </div>
       </div>
+      <h3> Проект создан {{ p.createdAt }}</h3>
 
       <div class="comment-block" *ngIf="p.id==selectedProj && showCommentBlock">
         <label>Комментарий</label><input type="text" class="text-input" [(ngModel)]="newCommentText">
