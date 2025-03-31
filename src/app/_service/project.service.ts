@@ -81,4 +81,12 @@ export class ProjectService {
 
     return this.httpClient.delete<ImageOperationResponse>(apiUrl, { params: params, headers: this.options.headers });
   }
+
+
+  closeProject(projId: number, userId?: number): Observable<string> {
+    const apiUrl = this.api + '/' + projId + '/close';
+    const params: HttpParams = new HttpParams().set('userId', userId ? userId : 0);
+
+    return this.httpClient.post<string>(apiUrl, params);
+  }
 }

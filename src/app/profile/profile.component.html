@@ -1,6 +1,9 @@
-<div *ngIf="profileUser" class="profile-block">
-    <h1>Ваш профиль</h1>
+<button (click)="clickButtton()">Ваш профиль</button><br>
+<div *ngIf="profileUser && show" class="profile-block">
     <h2> {{ profileUser.firstName }} {{ profileUser.lastName }}</h2>
     <h2> {{ profileUser.email }}</h2>
     <h2> Баланс: {{ profileUser.balance }}</h2>
+    <button class="logout" (click)="logout()">
+        Выйти
+    </button>
 </div>

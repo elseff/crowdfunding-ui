@@ -1,3 +1,4 @@
+import { Timestamp } from "rxjs";
 import { Author } from "./Author";
 import { Comment } from "./Comment";
 import { Image } from "./Image";
@@ -12,5 +13,8 @@ export interface Project {
     comments: Comment[],
     category: ProjectCategory,
     target: number,
-    createdAt: Date
+    collected: number,
+    createdAt: string,
+    closed: boolean,
+    closedAt: string
 }

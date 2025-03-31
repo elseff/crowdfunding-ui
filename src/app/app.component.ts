@@ -9,6 +9,8 @@ import { AuthComponent } from "./auth/auth.component";
 import { ProfileComponent } from "./profile/profile.component";
 import { NewProjectComponent } from "./new-project/new-project.component";
 import { UserService } from './_service/user.service';
+import { ProjectCategory } from './_model/ProjectCategory';
+import { ProjectcCategoryService } from './_service/project-category.service';
 
 
 @Component({
@@ -31,39 +33,50 @@ export class AppComponent implements OnInit, OnDestroy {
   supportAmount = 0;
   imageToAdd?: File = undefined;
 
-  constructor(private projectService: ProjectService, private userService: UserService) {
+  onlyOwn: boolean = false;
 
+  categories: ProjectCategory[] = []
+  category: string = 'Все'
+
+  constructor(private projectService: ProjectService, private userService: UserService, projectCategoryServ: ProjectcCategoryService) {
+    projectCategoryServ.findAllCategories().subscribe(res => {
+      this.categories = []
+      res.forEach(c => {
+        this.categories.push(c)
+      })
+    })
   }
   ngOnDestroy(): void {
 
   }
 
   ngOnInit(): void {
-    this.projects = []
-    this.projectService.findAllProjects().subscribe(projects => {
-      projects.forEach(p => {
-        this.projects.push(p);
-      })
-      this.userService.findById(102).subscribe(res => {
-        this.user = res;
-      })
+    this.userService.findById(102).subscribe(res => {
+      this.user = res;
     })
+    this.updateProjects(this.category);
+
+    this.ownProjects.forEach(p => console.log(p))
   }
 
   deleteProj(projId: number) {
     this.projectService.deleteProject(projId, this.user?.id).subscribe(res => {
       console.log(res)
-      this.projects = []
-      this.projectService.findAllProjects().subscribe(projects => {
-        projects.forEach(p => {
-          this.projects.push(p);
-        })
-      })
+      this.updateProjects(this.category);
     })
   }
 
+  closeProj(projId: number) {
+    this.projectService.closeProject(projId, this.user?.id).subscribe(res => {
+      console.log(res)
+      this.updateProjects(this.category);
+    })
+  }
+
+
   videoUrl: string = '../assets/video.mp4'
   projects: Project[] = []
+  ownProjects: Project[] = []
 
 
   logout() {
@@ -95,12 +108,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.selectedProj = undefined;
         this.newCommentText = ""
 
-        this.projects = []
-        this.projectService.findAllProjects().subscribe(projects => {
-          projects.forEach(p => {
-            this.projects.push(p);
-          })
-        })
+        this.updateProjects(this.category);
       });
   }
 
@@ -130,12 +138,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.showCommentBlock = false;
       this.selectedProj = undefined;
 
-      this.projects = []
-      this.projectService.findAllProjects().subscribe(projects => {
-        projects.forEach(p => {
-          this.projects.push(p);
-        })
-      })
+      this.updateProjects(this.category);
 
       this.userService.findById(usrId).subscribe(response => {
         this.user = response;
@@ -177,12 +180,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.showAddImageBlock = false;
       this.selectedProj = undefined;
 
-      this.projects = []
-      this.projectService.findAllProjects().subscribe(projects => {
-        projects.forEach(p => {
-          this.projects.push(p);
-        })
-      })
+      this.updateProjects(this.category);
     })
   }
 
@@ -196,12 +194,88 @@ export class AppComponent implements OnInit, OnDestroy {
       this.showAddImageBlock = false;
       this.selectedProj = undefined;
 
-      this.projects = []
-      this.projectService.findAllProjects().subscribe(projects => {
-        projects.forEach(p => {
-          this.projects.push(p);
-        })
+      this.updateProjects(this.category);
+    })
+  }
+
+  getProgressPercent(p: Project): number {
+    return Math.round((p.collected / p.target) * 100);
+  }
+
+  getNormalizedProgress(p: Project): number {
+
+    return Math.min(100, this.getProgressPercent(p));
+
+  }
+
+  getExcessPercent(p: Project): number {
+    return Math.max(0, this.getProgressPercent(p) - 100);
+  }
+
+  updateProjects(category: string) {
+    this.projects = []
+    this.ownProjects = []
+    this.projectService.findAllProjects().subscribe(projects => {
+      projects.forEach(p => {
+        if (!this.onlyOwn) {
+          if (!p.closed) {
+            if (this.category === "Все") {
+              this.projects.push(p);
+            } else {
+              if (this.category === p.category.name) {
+                this.projects.push(p);
+              }
+            }
+          }
+        }
+
+        if (p.author.id == this.user?.id) {
+          if (this.category === "Все") {
+            this.ownProjects.push(p)
+          }
+          else {
+            if (this.category === p.category.name) {
+              this.ownProjects.push(p)
+            }
+          }
+
+        }
       })
     })
+    this.sortByCreatedAt();
+  }
+
+  sortBy: string = "createdAt"
+  direction: string = "asc"
+
+  sortByCreatedAt() {
+    this.projects = this.projects.sort((p1, p2) => {
+      if (p1.createdAt > p2.createdAt) {
+        if (this.direction === "asc") {
+          return 1;
+        } else if (this.direction === "desc") {
+          return -1;
+        }
+        return 0;
+      } else {
+        return -1;
+      }
+    });
+    this.ownProjects = this.ownProjects.sort((p1, p2) => {
+      if (p1.createdAt > p2.createdAt) {
+        if (this.direction === "asc") {
+          return 1;
+        } else if (this.direction === "desc") {
+          return -1;
+        }
+        return 0;
+      } else {
+        return -1;
+      }
+    });
+  }
+
+  categoryChanged() {
+    this.updateProjects(this.category);
   }
 }
