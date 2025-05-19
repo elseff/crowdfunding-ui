@@ -13,6 +13,7 @@ VOLUME /crowdfunding-ui
 RUN npm install -g @angular/cli 
 
 COPY package.json .
+COPY package-lock.json .
 RUN npm install
 
 COPY . .
