@@ -1,0 +1,54 @@
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: [ Build ]
+    branches:
+      - 'master'
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    env:
+      CLIENT_PORT: ${{ vars.CLIENT_PORT }}
+    steps:
+      - name: Checkout v2
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node_version: ${{ matrix.node-version }}
+          cache: npm
+          cache-dependency-path: package-lock.json
+      
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+      
+      - name: Login to Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ secrets.CONTAINER_REGISTRY_URL }}
+          username: ${{ secrets.CONTAINER_REGISTRY_USERNAME }}
+          password: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
+      
+      - name: Build Docker image
+        run: >
+          docker build -t
+          ${{ secrets.CONTAINER_REGISTRY_URL }}/${{ secrets.CONTAINER_REGISTRY_USERNAME }}/${{ secrets.CONTAINER_REGISTRY_UI_REPO }}:latest .
+      
+      - name: Publish Docker image
+        run: >
+          docker push
+          ${{ secrets.CONTAINER_REGISTRY_URL }}/${{ secrets.CONTAINER_REGISTRY_USERNAME }}/${{ secrets.CONTAINER_REGISTRY_UI_REPO }}:latest
+  on-failure:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      - run: echo "First workflow was a failure"
