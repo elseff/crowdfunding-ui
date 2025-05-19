@@ -16,14 +16,14 @@ export class AuthService {
   };
   api: string = "http://localhost:8080/api/v1/auth"
 
-  constructor(private httpClient: HttpClient){  }
+  constructor(private httpClient: HttpClient) { }
 
-  register(request: RegisterUserRequest): Observable<RegisterUserResponse>{
+  register(request: RegisterUserRequest): Observable<RegisterUserResponse> {
     const apiString = this.api + '/register'
     return this.httpClient.post<RegisterUserResponse>(apiString, request, this.options);
   }
 
-  login(request: LoginUserRequest): Observable<User>{
+  login(request: LoginUserRequest): Observable<User> {
     const apiString = this.api + '/login'
     return this.httpClient.post<User>(apiString, request, this.options);
   }
