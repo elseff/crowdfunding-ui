@@ -26,8 +26,7 @@
     "swiper": "^11.2.1",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3",
-    "parse5": "5.1.1",
-    "entities": "1.1.2"
+    "parse5": "^6.0.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^19.2.12",
